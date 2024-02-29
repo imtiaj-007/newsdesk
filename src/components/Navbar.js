@@ -40,11 +40,27 @@ const Navbar = () => {
 
                         </ul>
 
-                        <div className="container d-flex w-25 justify-content-between" style={{height: "25px"}}>
+                        <div className="container d-flex w-25 justify-content-between" style={{ height: "25px" }}>
                             <div className="row gx-2" >
                                 <i className="col-sm"><img className={`${mode === 'dark' ? 'd-none' : ''}`} src={globeLight} alt="globe" /></i>
                                 <i className="col-sm"><img className={`${mode === 'light' ? 'd-none' : ''}`} src={globeDark} alt="globe" /></i>
-                                <h6 className={`col-sm d-flex m-auto text-${mode === 'dark' ? 'white': ''}`}>English</h6>
+                                
+                                <ul className={`col-sm d-flex m-auto text-${mode === 'dark' ? 'white' : ''}`} style={{listStyle: "none"}}>
+                                    <li className="nav-item dropdown">
+                                        <Link className="nav-link dropdown-toggle" to="/english" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            English
+                                        </Link>
+                                        <ul className="dropdown-menu">
+                                            <li><Link className="dropdown-item" to="/french">French</Link></li>
+                                            <li><Link className="dropdown-item" to="/Hindi">Hindi</Link></li>
+                                            <li><Link className="dropdown-item" to="/Italian">Italian</Link></li>
+                                            <li><Link className="dropdown-item" to="/Russian">Russian</Link></li>
+                                            <li><Link className="dropdown-item" to="/Tamil">Tamil</Link></li>
+                                            <li><Link className="dropdown-item" to="/Telugu">Telugu</Link></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                
                             </div>
 
                             <div className="d-flex mx-2" style={{ flexDirection: 'row-reverse' }}>

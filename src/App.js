@@ -11,12 +11,14 @@ import Navbar from './components/Navbar';
 import NewsContainer from './components/NewsContainer';
 import About from './components/About';
 import ModeState from './context/ModeState';
+import NewsState from './context/NewsSate';
 
 
 function App() {
   return (
     <>
       <ModeState>
+      <NewsState>
           <Router>
               <Navbar />
               <Routes>
@@ -26,6 +28,7 @@ function App() {
 
               </Routes>
           </Router>
+      </NewsState>
       </ModeState>
     </>
   );
