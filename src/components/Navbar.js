@@ -1,6 +1,8 @@
 import logo from '../images/logo.svg'
 import moon from '../images/moon.svg'
 import sun from '../images/sun.svg'
+import globeLight from '../images/globe-light.svg'
+import globeDark from '../images/globe-dark.svg'
 
 import React, { useContext } from 'react'
 import { Link } from "react-router-dom";
@@ -37,15 +39,25 @@ const Navbar = () => {
                             </li>
 
                         </ul>
-                        <div className="d-flex mx-2" style={{ flexDirection: 'row-reverse' }}>
 
-                            <i class={`bi bi-moon-stars-fill ${mode === 'light' ? 'd-none' : ""}`}><img src={moon} alt="moon" /></i>
-                            <i class={`bi bi-brightness-high-fill ${mode === 'dark' ? 'd-none' : ""}`}><img src={sun} alt="moon" /></i>
+                        <div className="container d-flex w-25 justify-content-between" style={{height: "25px"}}>
+                            <div className="row gx-2" >
+                                <i className="col-sm"><img className={`${mode === 'dark' ? 'd-none' : ''}`} src={globeLight} alt="globe" /></i>
+                                <i className="col-sm"><img className={`${mode === 'light' ? 'd-none' : ''}`} src={globeDark} alt="globe" /></i>
+                                <h6 className={`col-sm d-flex m-auto text-${mode === 'dark' ? 'white': ''}`}>English</h6>
+                            </div>
 
-                            <div className="form-check form-switch mx-2">
-                                <input className="form-check-input" type="checkbox" role="switch" id="switch" onClick={toggleMode} />
+                            <div className="d-flex mx-2" style={{ flexDirection: 'row-reverse' }}>
+
+                                <i className={`bi bi-moon-stars-fill ${mode === 'light' ? 'd-none' : ""}`}><img src={moon} alt="moon" /></i>
+                                <i className={`bi bi-brightness-high-fill ${mode === 'dark' ? 'd-none' : ""}`}><img src={sun} alt="moon" /></i>
+
+                                <div className="form-check form-switch mx-2">
+                                    <input className="form-check-input" type="checkbox" role="switch" id="switch" onClick={toggleMode} />
+                                </div>
                             </div>
                         </div>
+
                         <form className="d-flex ms-5" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn" type="submit">Search</button>
