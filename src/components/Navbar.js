@@ -7,9 +7,21 @@ import globeDark from '../images/globe-dark.svg'
 import React, { useContext } from 'react'
 import { Link } from "react-router-dom";
 import ModeContext from '../context/ModeContext';
+import NewsContext from '../context/NewsContext'
 
 const Navbar = () => {
     const { mode, toggleMode } = useContext(ModeContext);
+    const { fetchNews } = useContext(NewsContext);
+
+    const changeLanguage = async (item)=>{
+        let curItem = document.getElementById("activeNav");
+        let temp = curItem.innerHTML;
+        curItem.innerHTML = item.innerHTML;
+        item.innerHTML = temp;
+        
+        const lang = curItem.innerHTML.substring(0, 2).toLowerCase();
+        await fetchNews('general', lang, 'in');
+    }
 
     return (
         <div>
@@ -45,18 +57,18 @@ const Navbar = () => {
                                 <i className="col-sm"><img className={`${mode === 'dark' ? 'd-none' : ''}`} src={globeLight} alt="globe" /></i>
                                 <i className="col-sm"><img className={`${mode === 'light' ? 'd-none' : ''}`} src={globeDark} alt="globe" /></i>
                                 
-                                <ul className={`col-sm d-flex m-auto text-${mode === 'dark' ? 'white' : ''}`} style={{listStyle: "none"}}>
+                                <ul className={`col-sm d-flex m-auto text-${mode === 'dark' ? 'white' : ''}`} style={{listStyle: "none", cursor: "pointer"}}>
                                     <li className="nav-item dropdown">
-                                        <Link className="nav-link dropdown-toggle" to="/english" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <ul className="nav-link dropdown-toggle" to="#" id="activeNav" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             English
-                                        </Link>
+                                        </ul>
                                         <ul className="dropdown-menu">
-                                            <li><Link className="dropdown-item" to="/french">French</Link></li>
-                                            <li><Link className="dropdown-item" to="/Hindi">Hindi</Link></li>
-                                            <li><Link className="dropdown-item" to="/Italian">Italian</Link></li>
-                                            <li><Link className="dropdown-item" to="/Russian">Russian</Link></li>
-                                            <li><Link className="dropdown-item" to="/Tamil">Tamil</Link></li>
-                                            <li><Link className="dropdown-item" to="/Telugu">Telugu</Link></li>
+                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>French</li>
+                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>Hindi</li>
+                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>Italian</li>
+                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>Russian</li>
+                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>Tamil</li>
+                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>Telugu</li>
                                         </ul>
                                     </li>
                                 </ul>
