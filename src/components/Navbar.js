@@ -4,6 +4,7 @@ import sun from '../images/sun.svg'
 
 import React, { useContext } from 'react'
 import { Link } from "react-router-dom";
+import { isBrowser } from 'react-device-detect';
 
 import ModeContext from '../context/ModeContext';
 import NewsContext from '../context/NewsContext'
@@ -20,6 +21,20 @@ const Navbar = () => {
         await fetchNews(category, language, country);
     }
 
+    const handleActive = (item)=>{
+        const home = document.getElementById('home');
+        const about = document.getElementById('about');
+
+        if(item.innerHTML === 'About'){
+            about.classList.add('active')
+            home.classList.remove('active')
+        }
+        else {
+            home.classList.add('active')
+            about.classList.remove('active')
+        }
+    }
+
     return (
         <div>
             <nav className="navbar sticky-top navbar-expand-lg" style={{ backgroundColor: mode === 'light' ? "#ededed" : "#131313" }} data-bs-theme={mode}>
@@ -31,10 +46,10 @@ const Navbar = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" to="/home">Home</Link>
+                                <Link className="nav-link active" id="home" aria-current="page" to="/home" onClick={(e)=> handleActive(e.currentTarget)}>Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/about">About</Link>
+                                <Link className="nav-link" id="about" to="/about" onClick={(e)=> handleActive(e.currentTarget)}>About</Link>
                             </li>
                             <li className="nav-item dropdown" style={{ listStyle: "none", cursor: "pointer" }}>
                                 <ul className="nav-link dropdown-toggle" to="/categories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -52,10 +67,10 @@ const Navbar = () => {
 
                         </ul>
 
-                        <div className="container d-flex justify-content-between" style={{ width: "35%", height: "25px" }}>
+                        { isBrowser && <div className="container tools d-flex justify-content-between" style={{ width: "35%", height: "25px" }} id="toolsNav">
                                 <LanguageDropdown/>
                                 <CountryDropdown/>
-                                <div style={{width: "25%"}}></div>
+                                <div className="e-space" style={{width: "25%"}}></div>
 
                                 <div className="d-flex mx-2" style={{ flexDirection: 'row-reverse' }}>
 
@@ -67,9 +82,9 @@ const Navbar = () => {
                                     </div>
                                 </div>
 
-                        </div>
+                        </div>}
 
-                        <form className="d-flex ms-5" role="search">
+                        <form className="d-flex me-2" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn btn-secondary" type="button">Search</button>
                         </form>
