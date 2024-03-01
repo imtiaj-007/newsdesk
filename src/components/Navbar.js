@@ -1,26 +1,23 @@
 import logo from '../images/logo.svg'
 import moon from '../images/moon.svg'
 import sun from '../images/sun.svg'
-import globeLight from '../images/globe-light.svg'
-import globeDark from '../images/globe-dark.svg'
 
 import React, { useContext } from 'react'
 import { Link } from "react-router-dom";
+
 import ModeContext from '../context/ModeContext';
 import NewsContext from '../context/NewsContext'
+import LanguageDropdown from './LanguageDropdown'
+import CountryDropdown from './CountryDropdown';
 
 const Navbar = () => {
     const { mode, toggleMode } = useContext(ModeContext);
-    const { fetchNews } = useContext(NewsContext);
+    const { fetchNews, language, country, SetLoading } = useContext(NewsContext);
 
-    const changeLanguage = async (item)=>{
-        let curItem = document.getElementById("activeNav");
-        let temp = curItem.innerHTML;
-        curItem.innerHTML = item.innerHTML;
-        item.innerHTML = temp;
-        
-        const lang = curItem.innerHTML.substring(0, 2).toLowerCase();
-        await fetchNews('general', lang, 'in');
+    const changeCategory = async (item) => {
+        const category = item.innerHTML.toLowerCase();
+        SetLoading(true);
+        await fetchNews(category, language, country);
     }
 
     return (
@@ -39,56 +36,42 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/about">About</Link>
                             </li>
-                            <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" to="/categories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <li className="nav-item dropdown" style={{ listStyle: "none", cursor: "pointer" }}>
+                                <ul className="nav-link dropdown-toggle" to="/categories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Categories
-                                </Link>
+                                </ul>
                                 <ul className="dropdown-menu">
-                                    <li><Link className="dropdown-item" to="/general">General</Link></li>
-                                    <li><Link className="dropdown-item" to="/business">Business</Link></li>
-                                    <li><Link className="dropdown-item" to="entertainment">Entertainment</Link></li>
+                                    <li className="dropdown-item" onClick={(e) => changeCategory(e.currentTarget)}>General</li>
+                                    <li className="dropdown-item" onClick={(e) => changeCategory(e.currentTarget)}>Business</li>
+                                    <li className="dropdown-item" onClick={(e) => changeCategory(e.currentTarget)}>Science</li>
+                                    <li className="dropdown-item" onClick={(e) => changeCategory(e.currentTarget)}>Entertainment</li>
+                                    <li className="dropdown-item" onClick={(e) => changeCategory(e.currentTarget)}>Sports</li>
+                                    <li className="dropdown-item" onClick={(e) => changeCategory(e.currentTarget)}>Health</li>
                                 </ul>
                             </li>
 
                         </ul>
 
-                        <div className="container d-flex w-25 justify-content-between" style={{ height: "25px" }}>
-                            <div className="row gx-2" >
-                                <i className="col-sm"><img className={`${mode === 'dark' ? 'd-none' : ''}`} src={globeLight} alt="globe" /></i>
-                                <i className="col-sm"><img className={`${mode === 'light' ? 'd-none' : ''}`} src={globeDark} alt="globe" /></i>
-                                
-                                <ul className={`col-sm d-flex m-auto text-${mode === 'dark' ? 'white' : ''}`} style={{listStyle: "none", cursor: "pointer"}}>
-                                    <li className="nav-item dropdown">
-                                        <ul className="nav-link dropdown-toggle" to="#" id="activeNav" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            English
-                                        </ul>
-                                        <ul className="dropdown-menu">
-                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>French</li>
-                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>Hindi</li>
-                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>Italian</li>
-                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>Russian</li>
-                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>Tamil</li>
-                                            <li className="dropdown-item" onClick={(e)=> changeLanguage(e.currentTarget)}>Telugu</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                
-                            </div>
+                        <div className="container d-flex justify-content-between" style={{ width: "35%", height: "25px" }}>
+                                <LanguageDropdown/>
+                                <CountryDropdown/>
+                                <div style={{width: "25%"}}></div>
 
-                            <div className="d-flex mx-2" style={{ flexDirection: 'row-reverse' }}>
+                                <div className="d-flex mx-2" style={{ flexDirection: 'row-reverse' }}>
 
-                                <i className={`bi bi-moon-stars-fill ${mode === 'light' ? 'd-none' : ""}`}><img src={moon} alt="moon" /></i>
-                                <i className={`bi bi-brightness-high-fill ${mode === 'dark' ? 'd-none' : ""}`}><img src={sun} alt="moon" /></i>
+                                    <i className={`bi bi-moon-stars-fill ${mode === 'light' ? 'd-none' : ""}`}><img src={moon} alt="moon" /></i>
+                                    <i className={`bi bi-brightness-high-fill ${mode === 'dark' ? 'd-none' : ""}`}><img src={sun} alt="moon" /></i>
 
-                                <div className="form-check form-switch mx-2">
-                                    <input className="form-check-input" type="checkbox" role="switch" id="switch" onClick={toggleMode} />
+                                    <div className="form-check form-switch mx-2">
+                                        <input className="form-check-input" type="checkbox" role="switch" id="switch" onClick={toggleMode} />
+                                    </div>
                                 </div>
-                            </div>
+
                         </div>
 
                         <form className="d-flex ms-5" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn" type="submit">Search</button>
+                            <button className="btn btn-secondary" type="button">Search</button>
                         </form>
                     </div>
                 </div>
