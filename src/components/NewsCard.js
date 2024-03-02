@@ -15,7 +15,7 @@ const NewsCard = (props) => {
                         <p className="card-text">{description}</p>
                     </div>
                     <div className="card-footer">
-                        <a href={url} target="_blank" rel="noreferrer" className="btn btn-sm">Read More</a>
+                        <a href={url} target="_blank" rel="noreferrer" className="btn btn-sm btn-secondary">Read More</a>
                         <p>{new Date(publishedAt).toGMTString().substr(0, 16)}</p>
                     </div>
                 </div>
